@@ -1,0 +1,36 @@
+# VELARO Haute Joaillerie
+
+## Original problem statement
+Build a complete luxury single-page VELARO Haute Joaillerie jewelry landing experience from the user's extensive master prompt. Brand: warm porcelain #FBF9F5, champagne gold #C5A059, deep noir #0E1118, ruby accent #8B1E3F; Playfair Display, Cormorant Garamond, Plus Jakarta Sans, Space Mono typography. No signup/login/payment forms. Catalog filtering/search/wishlist, customizer with metals/sizes and prices, sliding multi-item bag, encoded zero-API WhatsApp inquiries to configurable +91 98765 43210, trust promises, craftsmanship, sizing/carat widget, reviews, bespoke contact, footer/newsletter. User supplied eight records under a 20-piece heading and referenced images that were not attached. User said “Start the task now,” then “No need for clarification, just proceed with your best judgment.” Additional explicit request: award-worthy editorial direction, masked line-by-line kinetic hero, deliberately treated photography, numbered manifesto chapters, slow marquee, Framer Motion reveals/microinteractions, Lenis scrolling, subtle parallax.
+
+## Architecture decisions
+- React SPA, modular JSX components and custom responsive CSS; Shadcn/Radix accessible Dialog primitives, Sonner toasts.
+- FastAPI + Motor MongoDB. Existing protected .env DB and frontend endpoint retained. Backend /api/products, /api/products/{sku}, /api/newsletter.
+- Idempotent startup upsert of 20 editorial sample products (eight supplied + twelve complementary examples). Persistent subscriber capture with explicit consent and validation. No email sending integration.
+- Wishlist and bag persist locally; bag refreshed against server product data on load. Options merge only for matching product/metal/size. Quantity bounds 1–20. Authoritative price formulas from catalog, no payment processing.
+- WhatsApp universal anchor links, URL-encoded messages, no API/key, no background sending. Phone in REACT_APP_WHATSAPP_PHONE_NUMBER. Product links built from protected backend public URL.
+- Platinum alternative adds 18%, rose alternative adds 4%; first listed metal is base price. Messages include actual chosen options, quantities, SKU, specs, image reference and totals. Optional bag name/city.
+- Shadcn/Radix overlays, focus restoration, Escape/backdrop dismissal, mobile bottom sheets with swipe handle. Lenis paused whenever an overlay is open to avoid background scroll races. Framer Motion handles card hover without competing layout transforms.
+- Hero is generated editorial illustration in /frontend/public/images/velaro-editorial.jpg. Catalog uses curated Unsplash photography. Product dialogs disclose illustrative imagery and tone previews; second gallery view is a detail crop, not a second-angle shoot. Exact-piece photographs and final certification/price/stock should be confirmed by the concierge.
+
+## Implemented
+- Cinematic responsive hero, faceted crest and wordmark, glass sticky nav, desktop categories, mobile menu and fixed bottom navigation, trust bar.
+- Twenty-piece catalog, category chips, collection tabs, audience/budget/sort filters, resets/empty states, incremental show more, live search and persistent wishlist.
+- Product customizer with animated metal tone change and price update, ring and fit sizes, zoom/full image views, nested sizing guide, direct WhatsApp and add-to-bag.
+- Persistent variant-aware bag, quantities/removal, line totals/subtotal, optional contact details, encoded multi-item WhatsApp order.
+- Numbered editorial chapters, slow marquee, green-velvet heritage spread, accurate approximate US/UK/EU diameter/circumference table, interactive 0.5–3ct visualization on hand outline.
+- Brand-content client diary, bespoke CTA, boutique appointment links, mailto, working newsletter capture, care/delivery/privacy/terms dialogs.
+- Production frontend build passed, initial backend regression 6/6, screenshots confirmed hero/collection/product. Test reports stored in /app/test_reports.
+
+## Testing notes
+- iteration_1: backend fully green, frontend core catalog/customizer flows passed. Agent reported intermittent forced product click failure. Four direct reproduction runs all opened correctly. Hardened Lenis/modal isolation and card motion, refactored app orchestration for maintainability. Remaining bag/footer/mobile regression underway.
+- No login accounts. See test_credentials.md.
+
+## Prioritized backlog / next tasks
+- P0 before real selling: brand owner should confirm real WhatsApp number, catalog/pricing, certifications, return policy and actual boutique addresses. Contact is the supplied number, not externally verified. Replace stock/illustrative jewelry photography with exact-piece photos. Reviews/social proof are supplied editorial sample brand content, not independently verified.
+- P1: actual per-metal and multi-angle photography, real verified client diary; opt-in email delivery integration for Collector’s Circle (currently database capture only).
+- P2: concierge inquiry analytics with appropriate consent, currency personalization, private appointment availability.
+- iteration_2: modal reliability 4/4; bag variants merge/split, quantities 1–20, persistence, deep links and sizing passed. Main agent traced footer legal click failure via elementFromPoint: decorative oversized wordmark intercepted clicks. Fixed decorative pointer-events and legal control stacking/minimum hit areas. Main agent removed bag item successfully with pointer click; hardened multi-item drawer scroll geometry (no flex shrink), larger remove targets, wrapping control rows. Moved toast away from checkout CTA. Mobile-specific final regression next.
+- iteration_3: 390/360/320/768 tested; mobile menu/search/product/bag and newsletter frontend passed. Found root overflow320->325. Root cause is category rail -20px right margin retained after page gutters shrink to15px at359px, not the marquee. Corrected narrow rail to-15px. Refined phone hero typography to retain intended three lines, restored full-width hero at320 and separated wishlist from close button in phone product gallery. Self-verification of final width matrix underway.
+- Final self-verification complete: four live embedded responsive viewports320/360/390/768 each had scrollWidth exactly equal to viewport width;320 product and bag also320/320 with checkout reachable. Screenshots /tmp/velaro-responsive-final.jpg and /tmp/velaro-responsive-bag-final.jpg. Privacy/Terms direct pointer clicks passed. Three-product bag totaling$3,093 removed3->2->1->0 successfully. Exact final WhatsApp decode passed SKU, ×2, Platinum/White Gold, US8, $1,533 unit, $3,066 subtotal, escaped Alex & Sam/London / UK, imageURL and product hash; destination919876543210. Final production build compiled successfully (164kB gzippedJS,22kBCSS); six backend regression tests passed again. No known unresolved core-flow bugs. Newsletter API and UI captures consented emails; messaging/email delivery itself remains outside website scope.
+- Next product work: owner confirms operational details and exact-piece imagery; optional inquiry-conversion tracking and private-preview email campaigns.

@@ -1,0 +1,11 @@
+import { useState } from 'react';
+import { Search, Heart, ArrowUpRight } from 'lucide-react';
+import { Modal } from './Modal';
+import { money } from '../lib/atelier';
+
+export const SearchDialog = ({ mode, onClose, products, wishlist, onOpen, onSave }) => {
+  const [query,setQuery] = useState('');
+  const saved = mode === 'wishlist';
+  const results = products.filter(p => (!saved || wishlist.includes(p.id)) && `${p.name} ${p.category} ${p.id} ${p.specs} ${p.metals.join(' ')}`.toLowerCase().includes(query.toLowerCase().trim()));
+  return <Modal open onClose={onClose} title={saved ? 'Your saved creations' : 'Discover your heirloom'} className="search-modal" testId="search-dialog"><div className="search-header"><span className="eyebrow">{saved ? 'A PRIVATE COLLECTION' : 'SOMETHING EXTRAORDINARY AWAITS'}</span><h2 data-testid="search-heading">{saved ? 'Close to your heart.' : 'Find your forever.'}</h2><label className="search-field"><Search size={19}/><input autoFocus value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search rings, diamonds, a little magic…" data-testid="search-input" aria-label="Search jewelry"/></label><p data-testid="search-results-count" aria-live="polite">{results.length} {saved ? 'saved' : 'exceptional'} creations</p></div><div className="search-results">{results.length ? results.map(p => <div className="search-result" key={p.id}><button className="search-result-main" onClick={() => onOpen(p)} data-testid={`search-result-${p.id}`}><img src={p.image} alt={p.name} loading="lazy" width="80" height="80"/><span><small>{p.category} · {p.metals[0]}</small><h3>{p.name}</h3><b>{money(p.price)} <small>USD</small></b></span><ArrowUpRight size={17}/></button>{saved && <button className="icon-button" onClick={()=>onSave(p.id)} data-testid={`saved-remove-${p.id}`} aria-label={`Unsave ${p.name}`}><Heart size={17} fill="currentColor"/></button>}</div>) : <div className="empty-state" data-testid="search-empty"><Heart size={30} strokeWidth={1}/><h3>{saved ? 'Make room for a little love.' : 'Nothing quite like that. Yet.'}</h3><p>{saved ? 'Tap the heart on a creation to keep it here.' : 'Try a different name, metal, or gemstone.'}</p></div>}</div></Modal>;
+};

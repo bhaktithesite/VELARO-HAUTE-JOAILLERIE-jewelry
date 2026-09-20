@@ -1,0 +1,40 @@
+/* Decorative typography must never sit in front of interactive controls. */
+.footer-wordmark { pointer-events: none; }
+.footer-bottom { position: relative; z-index: 1; }
+.footer-bottom button { min-height: 40px; padding: 8px 4px; }
+
+/* Keep the native drawer scroll geometry stable as its contents grow. */
+.bag-drawer > .bag-heading,
+.bag-drawer > .bag-items,
+.bag-drawer > .bag-summary { flex-shrink: 0; }
+.bag-item-bottom { flex-wrap: wrap; }
+.remove-item { min-width: 28px; min-height: 32px; }
+.bag-items { overflow-anchor: none; }
+
+/* Framer Motion owns the card's transform; CSS only animates its shadow. */
+.product-card { transition: box-shadow .3s; }
+.product-card:hover { box-shadow: 0 16px 36px rgba(197, 160, 89, .07); }
+
+/* Confirmation never covers a checkout action. */
+[data-sonner-toaster][data-y-position='top'] { top: 25px !important; bottom: auto !important; }
+@media(max-width:767px) {
+  [data-sonner-toaster][data-y-position='top'] { top: 104px !important; bottom: auto !important; }
+  .remove-item { min-height: 40px; }
+  .footer-bottom button { min-height: 44px; padding-top: 10px; padding-bottom: 10px; }
+  .modal-gallery .modal-wishlist { top: 58px; right: 18px; width: 34px; height: 34px; }
+}
+
+/* The mobile editorial remains generous without pushing the jewelry below the fold. */
+@media(max-width:540px) {
+  .hero.page-width { width: 100%; }
+  .hero-copy { padding-top: 29px; padding-bottom: 27px; min-width: 0; }
+  .hero h1 { font-size: clamp(36px, 11.3vw, 48px); letter-spacing: -1.8px; line-height: 1.12; }
+  .hero-line:nth-child(2), .hero-line:nth-child(3) { display: block; margin-right: 0; }
+  .hero-description { margin-top: 17px; margin-bottom: 18px; }
+  .hero-proof { margin-top: 18px; }
+}
+@media(max-width:359px) {
+  /* Match the 15px page gutter, rather than the wider mobile 20px gutter. */
+  .category-rail { margin-right: -15px; padding-right: 15px; }
+  .hero-copy { padding-left: 20px; padding-right: 20px; }
+}

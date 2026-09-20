@@ -1,0 +1,45 @@
+{
+  "type": "main-agent verification after iteration_3 fixes",
+  "build": "PASS: yarn build compiled successfully",
+  "backend": "PASS: 6 regression tests",
+  "responsive": {
+    "320": {"viewport": 320, "scrollWidth": 320, "status": "pass"},
+    "360": {"viewport": 360, "scrollWidth": 360, "status": "pass"},
+    "390": {"viewport": 390, "scrollWidth": 390, "status": "pass"},
+    "768": {"viewport": 768, "scrollWidth": 768, "status": "pass"},
+    "320_product_modal": "PASS: width320, scrollWidth320",
+    "320_bag": "PASS: width320, scrollWidth320, checkout reachable"
+  },
+  "resolved": [
+    "Supplied unavailable bracelet image replaced and all catalog images checked",
+    "Product opening4/4 reloads and repeated full checkout tests pass; Lenis stops while dialogs open",
+    "Decorative footer wordmark intercepted pointer hits; pointer-events:none and legal control stacking fix verified",
+    "Bag controls stable after disabling content flex shrinking; three-item direct pointer removal to empty verified",
+    "320px page overflow caused by category rail margin exceeding narrowed gutter; corrected gutter restores exact320 width"
+  ],
+  "whatsapp_receipt": {
+    "status": "pass",
+    "phone": "919876543210",
+    "sku": "VEL-RN-101",
+    "quantity": 2,
+    "metal": "Platinum / White Gold",
+    "size": "US 8",
+    "unit_price": 1533,
+    "subtotal": 3066,
+    "optional_fields_encoding": "PASS: Alex & Sam; London / UK",
+    "references": "PASS: image URL and correct product hash"
+  },
+  "newsletter": "PASS: API validation/idempotency plus frontend consent and saved-success UI",
+  "unresolved_core_bugs": [],
+  "limitations": [
+    "WhatsApp opens a draft; customer must send it. Destination is supplied but not independently verified.",
+    "Newsletter stores subscribers; no email provider sends campaigns.",
+    "Catalog photography, metal-tone previews and brand testimonials are editorial sample content; exact product and business details require owner verification."
+  ],
+  "screenshots": [
+    "/tmp/velaro-responsive-final.jpg",
+    "/tmp/velaro-responsive-bag-final.jpg",
+    "/tmp/velaro-final-bag-receipt.jpg",
+    "/tmp/velaro-bag-empty-verified.jpg"
+  ]
+}
